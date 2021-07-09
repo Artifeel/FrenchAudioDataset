@@ -33,8 +33,9 @@ while line:
     #print(wav)
     wav_list = np.asarray(wav.numpy())
     # print(wav)
+    sigma = 0.02*random.random()
     for k in range(0,len(wav_list)) :
-        wav_list[k] = wav_list[k] + aleaGauss(0.01)
+        wav_list[k] = wav_list[k] + aleaGauss(sigma)
     # print(wav)
     wav_list = wav_list.reshape((len(wav_list),1))
     bruited_content = tf.convert_to_tensor(value = wav_list, dtype=tf.float32)

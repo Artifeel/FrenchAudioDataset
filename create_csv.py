@@ -1,10 +1,11 @@
 import re
+import random
 
 file = open('pre_csv.txt', "r")
 line = file.readline()
 csv = open('French_digits_perso.csv',"w")
 csv.write('"Filename","target","category","speaker","fold"\n')
-p = re.compile('_[\w]*_')
+p = re.compile('_[\w\d-]*_')
 q = re.compile('_[\d]*.wav')
 while line:
     f = line[:-1]
@@ -16,30 +17,37 @@ while line:
     csv.write(f'"{f}",')
     csv.write(f'"{f[0]}",')
     cat = ""
-    if (int(f[0]) == 0):
-        cat = "zero"
-    elif (int(f[0]) == 1):
-        cat = "un"
-    elif (int(f[0]) == 2):
-        cat = "deux"
-    elif (int(f[0]) == 3):
-        cat = "trois"
-    elif (int(f[0]) == 4):
-        cat = "quatre"
-    elif (int(f[0]) == 5):
-        cat = "cinq"
-    elif (int(f[0]) == 6):
-        cat = "six"
-    elif (int(f[0]) == 7):
-        cat = "sept"
-    elif (int(f[0]) == 8):
-        cat = "huit"
-    elif (int(f[0]) == 9):
-        cat = "neuf"
+    try :
+        first = int(f[0])
+        if (first == 0):
+            cat = "zero"
+        elif (first == 1):
+            cat = "un"
+        elif (first == 2):
+            cat = "deux"
+        elif (first == 3):
+            cat = "trois"
+        elif (first == 4):
+            cat = "quatre"
+        elif (first == 5):
+            cat = "cinq"
+        elif (first == 6):
+            cat = "six"
+        elif (first == 7):
+            cat = "sept"
+        elif (first == 8):
+            cat = "huit"
+        elif (first == 9):
+            cat = "neuf"
+    except :
+        cat = "unknowed"
     csv.write(f'"{cat}",')
     spk = f[m.start()+1:m.end()-1]
     csv.write(f'"{spk}",')
-    csv.write(f'"{f[n.end()-5]}"\n')
+    if (f[0] == 'u'):
+        csv.write(f'"{int(random.random()*10)}"\n')
+    else :
+        csv.write(f'"{f[n.end()-5]}"\n')
 
     # utilisez readline() pour lire la ligne suivante
     line = file.readline()

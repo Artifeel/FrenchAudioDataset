@@ -11,6 +11,7 @@ find ./original/*.wav
 find ./bruit/*.wav
 find ./shift_down/*.wav
 find ./shift_up/*.wav
+find ./voice/*.wav
 EOF
 )
 #echo $data
