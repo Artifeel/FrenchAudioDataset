@@ -7,6 +7,7 @@ csv = open('French_digits_perso.csv',"w")
 csv.write('"Filename","target","category","speaker","fold"\n')
 p = re.compile('_[\w\d-]*_')
 q = re.compile('_[\d]*.wav')
+i = 0
 while line:
     f = line[:-1]
     m = p.search(f)
@@ -45,7 +46,8 @@ while line:
     spk = f[m.start()+1:m.end()-1]
     csv.write(f'"{spk}",')
     if (f[0] == 'u'):
-        csv.write(f'"{int(random.random()*10)}"\n')
+        i = (i+1)%10
+        csv.write(f'"{i}"\n')
     else :
         csv.write(f'"{f[n.end()-5]}"\n')
 

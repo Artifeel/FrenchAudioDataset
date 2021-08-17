@@ -12,6 +12,7 @@ find ./bruit/*.wav
 find ./shift_down/*.wav
 find ./shift_up/*.wav
 find ./voice/*.wav
+find ./time_shift/*.wav
 EOF
 )
 #echo $data
@@ -23,7 +24,7 @@ do
    #echo $i
    name=$(basename $i)
    #echo $name
-   cp $i ./recordings/$name
+   sox $i -r 16000 ./recordings/$name
 done 
 
 echo "___Creating CSV File for Dataset___"

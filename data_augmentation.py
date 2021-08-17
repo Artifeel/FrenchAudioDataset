@@ -69,7 +69,39 @@ while line:
     
     tf.io.write_file('./shift_down/'+f[0:m.end()-1]+'Down'+f[m.end()-1:len(f)],audio_down_wav)
     tf.io.write_file('./shift_up/'+f[0:m.end()-1]+'Up'+f[m.end()-1:len(f)],audio_up_wav)
-    
+    # ------------ Time Shifting ------------
+    n_timesh = abs(int(aleaGauss(2)))+3
+    n_timesh_bis = abs(int(aleaGauss(2)))+4
+    buffer = 1 * sr
+    #print(len(audio))
+    padding = np.zeros(int(buffer/n_timesh))
+    block_bis = audio[int(buffer/n_timesh_bis) : len(audio)]
+    audio = np.concatenate((padding,audio), axis = 0)
+    samples_total = len(audio)
+    #print(len(audio))
+    #check if the buffer is not exceeding total samples 
+    if buffer > (samples_total):
+      buffer = samples_total
+
+    block = audio[0 : buffer]
+
+    # Write  second segment
+    wav_out = tf.convert_to_tensor(block.reshape((len(block),1)),dtype=tf.float32)
+    wav_out = tf.audio.encode_wav(
+      wav_out,
+      sr,
+      name=None
+    )
+
+    wav_out_bis = tf.convert_to_tensor(block_bis.reshape((len(block_bis),1)),dtype=tf.float32)
+    wav_out_bis = tf.audio.encode_wav(
+    wav_out_bis,
+    sr,
+    name=None
+    )
+
+    tf.io.write_file('./time_shift/'+f[0:m.end()-1]+'Decal'+f[m.end()-1:len(f)],wav_out)
+    tf.io.write_file('./time_shift/'+f[0:m.end()-1]+'Early'+f[m.end()-1:len(f)],wav_out_bis)
     # utilisez readline() pour lire la ligne suivante
     line = file.readline()
 
